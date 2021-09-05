@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HomeArticle(
     val curPage: Int,
-    val datas: List<Article>?,
+    val datas: MutableList<Article>?,
     val offset: Int,
     val over: Boolean,
     val pageCount: Int,

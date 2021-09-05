@@ -1,6 +1,7 @@
 package com.ekkoe.fitty.api
 
 
+import com.ekkoe.fitty.data.Article
 import com.ekkoe.fitty.data.HomeArticle
 import com.ekkoe.fitty.data.HomeBanner
 import retrofit2.http.GET
@@ -13,5 +14,8 @@ interface WanAndroidApi {
 
     @GET("banner/json")
     suspend fun getHomeBanner(): List<HomeBanner>
+
+    @GET("article/top/json")
+    suspend fun getTopArticle():List<Article>
 
 }
