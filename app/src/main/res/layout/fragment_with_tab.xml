@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/srl_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,21 +10,14 @@
         android:stateListAnimator="@animator/appbar_elevation">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
+            android:id="@+id/tab"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            app:tabIndicatorFullWidth="false"
-            app:tabMinWidth="10dp"
-            app:tabMode="scrollable"
-            app:tabPaddingEnd="8dp"
-            app:tabPaddingStart="8dp"
-            app:tabTextAppearance="@style/TabLayoutTextAppearance" />
+            android:layout_height="?attr/actionBarSize"
+            app:tabMode="scrollable" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vp2"
+        android:id="@+id/vp2_article"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />

@@ -1,7 +1,6 @@
 package com.ekkoe.fitty.ui.home
 
 import android.graphics.drawable.GradientDrawable
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,19 +60,20 @@ class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             llTag.removeAllViews()
             tvTitle.text = HtmlCompat.fromHtml(title, FROM_HTML_MODE_COMPACT)
             if (fresh)
-                addTagView(itemView.context.getString(R.string.fresh), R.color.purple_200)
+                addTagView(itemView.context.getString(R.string.fresh), R.color.red_700)
 
             if (type == 1) {
-                addTagView(itemView.context.getString(R.string.top_article), R.color.purple_200)
+                addTagView(itemView.context.getString(R.string.top_article), R.color.red_700)
             }
 
             //tag
             tags?.forEach { tag ->
-                addTagView(tag.name, R.color.teal_200)
+                addTagView(tag.name, R.color.teal_A400)
             }
 
             //作者
             val tvAuthor = TextView(itemView.context).also {
+                it.setTextAppearance(R.style.TextAppearance_MaterialComponents_Caption)
                 it.text = if (author.isNullOrBlank()) shareUser else author
             }
             llTag.addView(tvAuthor)
@@ -95,7 +95,8 @@ class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             text = name
             background = drawable
             setPadding(3.dp, 2.dp, 3.dp, 2.dp)
-            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
+            //setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
+            setTextAppearance(R.style.TextAppearance_MaterialComponents_Caption)
             setTextColor(ContextCompat.getColor(itemView.context, res))
         }
 

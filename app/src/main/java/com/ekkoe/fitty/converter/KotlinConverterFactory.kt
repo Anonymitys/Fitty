@@ -24,8 +24,12 @@ class KotlinConverterFactory : Converter.Factory() {
 
 class KotlinResponseBodyConverter<T>(private val serializer: KSerializer<T>) :
     Converter<ResponseBody, T> {
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
+
     override fun convert(value: ResponseBody): T? {
-        return Json.decodeFromString(ApiResponse.serializer(serializer), value.string()).also {
+        return json.decodeFromString(ApiResponse.serializer(serializer), value.string()).also {
             if (it.errorCode != 0)
                 throw CustomHttpException(it.errorCode, it.errorMsg)
         }.data

@@ -38,7 +38,7 @@ data class Article(
     val publishTime: Long,
     val realSuperChapterId: Int,
     val selfVisible: Int,
-    val shareDate: Long,
+    val shareDate: Long?,
     val shareUser: String?,
     val superChapterId: Int,
     val superChapterName: String?,
@@ -53,5 +53,18 @@ data class Article(
 
 @Serializable
 data class Tag(val name: String, val url: String?)
+
+
+@Serializable
+data class HomeBanner(
+    val desc: String?,
+    val id: Int,
+    val imagePath: String?,
+    val isVisible: Int,
+    val order: Int,
+    val title: String?,
+    val type: Int,
+    val url: String?
+)
 
 
