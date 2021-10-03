@@ -1,5 +1,7 @@
 package com.ekkoe.fitty.data
 
+import android.os.Parcel
+import android.os.Parcelable
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -53,6 +55,30 @@ data class Article(
 
 @Serializable
 data class Tag(val name: String, val url: String?)
+
+data class Tab(val name: String,val id:Int):Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
+        parcel.readInt()
+    )
+
+    override fun describeContents(): Int = 0
+
+    override fun writeToParcel(p0: Parcel?, p1: Int) {
+        p0?.writeString(name)
+        p0?.writeInt(id)
+    }
+
+    companion object CREATOR : Parcelable.Creator<Tab> {
+        override fun createFromParcel(parcel: Parcel): Tab {
+            return Tab(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Tab?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
 
 
 @Serializable

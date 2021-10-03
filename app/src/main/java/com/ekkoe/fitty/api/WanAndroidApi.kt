@@ -46,5 +46,11 @@ interface WanAndroidApi {
     @GET("tree/json")
     suspend fun getHierarchy():List<Hierarchy>
 
+    @GET("article/list/{index}/json")
+    suspend fun getHierarchyArticle(
+        @Path("index") indexId: Int,
+        @Query("cid") id:Int
+    ): HomeArticle
+
 
 }

@@ -21,7 +21,8 @@
             app:tabMode="scrollable"
             app:tabPaddingEnd="8dp"
             app:tabPaddingStart="8dp"
-            app:tabTextAppearance="@style/TabLayoutTextAppearance" />
+            app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:tabIndicatorAnimationMode="elastic"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2

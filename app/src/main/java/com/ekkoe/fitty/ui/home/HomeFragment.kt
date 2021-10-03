@@ -7,7 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ekkoe.fitty.R
 import com.ekkoe.fitty.repository.ArticleRepository
 import com.ekkoe.fitty.ui.common.ArticleFragment
-import com.ekkoe.fitty.vp2Adapter
+import com.ekkoe.fitty.extension.vp2Adapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

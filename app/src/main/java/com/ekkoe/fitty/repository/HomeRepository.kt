@@ -4,7 +4,7 @@ import androidx.paging.*
 import com.ekkoe.fitty.api.CustomHttpException
 import com.ekkoe.fitty.api.WanAndroidApi
 import com.ekkoe.fitty.data.Article
-import com.ekkoe.fitty.paging
+import com.ekkoe.fitty.extension.paging
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Hierarchy(
-    val children: List<Sub>,
+    val children: ArrayList<SubHierarchy>,
     val courseId: Int,
     val id: Int,
     val name: String,
@@ -12,10 +12,10 @@ data class Hierarchy(
     val parentChapterId: Int,
     val userControlSetTop: Boolean,
     val visible: Int
-)
+):java.io.Serializable
 
 @Serializable
-data class Sub(
+data class SubHierarchy(
     val courseId: Int,
     val id: Int,
     val name: String,
@@ -23,4 +23,4 @@ data class Sub(
     val parentChapterId: Int,
     val userControlSetTop: Boolean,
     val visible: Int
-)
+):java.io.Serializable

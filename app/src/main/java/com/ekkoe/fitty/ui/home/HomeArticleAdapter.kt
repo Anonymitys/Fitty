@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ekkoe.fitty.R
 import com.ekkoe.fitty.data.Article
-import com.ekkoe.fitty.dp
+import com.ekkoe.fitty.extension.dp
 
 class HomeArticleAdapter : PagingDataAdapter<Article, ArticleViewHolder>(COMPARATOR) {
 
@@ -95,7 +95,6 @@ class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             text = name
             background = drawable
             setPadding(3.dp, 2.dp, 3.dp, 2.dp)
-            //setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
             setTextAppearance(R.style.TextAppearance_MaterialComponents_Caption)
             setTextColor(ContextCompat.getColor(itemView.context, res))
         }

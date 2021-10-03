@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ekkoe.fitty.repository.ArticleRepository
 
-class ArticleViewModel(repository: ArticleRepository) : ViewModel() {
+class ArticleViewModel(private val repository: ArticleRepository) : ViewModel() {
 
-    val articleList = repository.getArticle().cachedIn(viewModelScope)
+    fun getArticleList(cid: Int = 0) =
+        repository.getArticle(cid).cachedIn(viewModelScope)
+
 }

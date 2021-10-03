@@ -13,13 +13,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ekkoe.fitty.R
 import com.ekkoe.fitty.api.apiService
+import com.ekkoe.fitty.data.Hierarchy
+import com.ekkoe.fitty.data.SubHierarchy
 import com.ekkoe.fitty.repository.HierarchyRepository
 import kotlinx.coroutines.flow.collectLatest
 
 class HierarchyFragment : Fragment(R.layout.fragment_hierarchy) {
-    private lateinit var srlRefresh:SwipeRefreshLayout
+    private lateinit var srlRefresh: SwipeRefreshLayout
 
-    private val hierarchyAdapter = HierarchyAdapter()
+
+    private val hierarchyAdapter = HierarchyAdapter(::itemClick, ::contentClick)
 
     private val model by viewModels<HierarchyViewModel> {
         object : ViewModelProvider.Factory {
@@ -35,16 +38,16 @@ class HierarchyFragment : Fragment(R.layout.fragment_hierarchy) {
         initRV(view)
         lifecycleScope.launchWhenResumed {
             model.hierarchyList.collectLatest {
-                hierarchyAdapter.submitList(it){
+                hierarchyAdapter.submitList(it) {
                     srlRefresh.isRefreshing = false
                 }
             }
         }
     }
 
-    private fun initRefresh(view: View){
+    private fun initRefresh(view: View) {
         srlRefresh = view.findViewById<SwipeRefreshLayout>(R.id.srl_refresh).also {
-            it.setColorSchemeColors(ContextCompat.getColor(requireContext(),R.color.purple_500))
+            it.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.purple_500))
             it.setOnRefreshListener {
                 model.refresh()
             }
@@ -62,6 +65,16 @@ class HierarchyFragment : Fragment(R.layout.fragment_hierarchy) {
             )
         })
         list.adapter = hierarchyAdapter
+    }
+
+
+    private fun itemClick(hierarchy: Hierarchy) {
+        HierarchyActivity.start(activity, hierarchy = hierarchy)
+    }
+
+
+    private fun contentClick(subHierarchy: SubHierarchy) {
+        HierarchyActivity.start(activity, subHierarchy = subHierarchy)
     }
 
 

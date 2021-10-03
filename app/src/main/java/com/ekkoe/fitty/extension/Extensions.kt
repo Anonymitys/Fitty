@@ -1,4 +1,4 @@
-package com.ekkoe.fitty
+package com.ekkoe.fitty.extension
 
 import android.content.res.Resources
 import android.util.TypedValue

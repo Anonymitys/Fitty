@@ -19,12 +19,12 @@ import com.ekkoe.fitty.repository.getArticleRepository
 import com.ekkoe.fitty.ui.home.HomeArticleAdapter
 import kotlinx.coroutines.flow.collectLatest
 
-class ArticleFragment : Fragment(R.layout.fragment_article) {
+open class ArticleFragment : Fragment(R.layout.fragment_article) {
 
-    private val articleAdapter = HomeArticleAdapter()
+    internal val articleAdapter = HomeArticleAdapter()
     private lateinit var srlRefresh: SwipeRefreshLayout
 
-    private val model by viewModels<ArticleViewModel> {
+    internal val model by viewModels<ArticleViewModel> {
         object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -46,13 +46,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRefresh(view)
         initRV(view)
-
-        lifecycleScope.launchWhenResumed {
-            model.articleList.collectLatest {
-                articleAdapter.submitData(it)
-            }
-        }
-
+        initArticle()
         lifecycleScope.launchWhenCreated {
             articleAdapter.loadStateFlow.collectLatest {
                 srlRefresh.isRefreshing = it.mediator?.refresh is LoadState.Loading
@@ -60,6 +54,14 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }
 
 
+    }
+
+    internal open fun initArticle(){
+        lifecycleScope.launchWhenResumed {
+            model.getArticleList().collectLatest {
+                articleAdapter.submitData(it)
+            }
+        }
     }
 
     private fun initRefresh(view: View) {
@@ -86,5 +88,28 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                 )
             })
         list.adapter = articleAdapter
+    }
+}
+
+
+class ParamsArticleFragment : ArticleFragment() {
+
+    override fun initArticle() {
+        val cid = arguments?.getInt(CID) ?: 0
+        lifecycleScope.launchWhenResumed {
+            model.getArticleList(cid).collectLatest {
+                articleAdapter.submitData(it)
+            }
+        }
+    }
+
+
+    companion object {
+        const val TYPE = "repository_type"
+        const val CID = "cid"
+        fun newInstance(type: ArticleRepository.Type, cid: Int?): ParamsArticleFragment =
+            ParamsArticleFragment().also {
+                it.arguments = bundleOf(Pair(CID, cid), Pair(TYPE, type))
+            }
     }
 }

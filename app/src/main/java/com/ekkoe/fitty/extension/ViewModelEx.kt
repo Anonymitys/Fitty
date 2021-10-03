@@ -1,4 +1,4 @@
-package com.ekkoe.fitty
+package com.ekkoe.fitty.extension
 
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
