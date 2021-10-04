@@ -11,11 +11,14 @@ val apiService = ApiService()
 class ApiService {
 
     private val service: Retrofit = Retrofit.Builder()
-        .baseUrl("https://www.wanandroid.com")
+        .baseUrl(BASE_URL)
         .addConverterFactory(KotlinConverterFactory())
         .build()
 
     val wanAndroidApi: WanAndroidApi = service.create(WanAndroidApi::class.java)
 
 
+    companion object{
+        const val BASE_URL = "https://www.wanandroid.com"
+    }
 }

@@ -13,7 +13,8 @@
         app:tabMode="scrollable"
         android:elevation="1dp"
         app:tabIndicatorFullWidth="false"
-        app:tabIndicatorAnimationMode="elastic" />
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabBackground="?colorSurface"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp2_article"

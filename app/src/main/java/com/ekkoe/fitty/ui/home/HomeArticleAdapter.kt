@@ -4,6 +4,7 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorRes
@@ -13,7 +14,9 @@ import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ekkoe.fitty.R
+import com.ekkoe.fitty.api.ApiService
 import com.ekkoe.fitty.data.Article
 import com.ekkoe.fitty.extension.dp
 
@@ -43,9 +46,11 @@ class HomeArticleAdapter : PagingDataAdapter<Article, ArticleViewHolder>(COMPARA
 class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val tvTitle: TextView = itemView.findViewById(R.id.tv_title)
+    private val tvSubTitle: TextView = itemView.findViewById(R.id.tv_subtitle)
     private val llTag: LinearLayout = itemView.findViewById(R.id.tag)
-    private val tvSubtitle: TextView = itemView.findViewById(R.id.tv_subtitle)
+    private val tvChapter: TextView = itemView.findViewById(R.id.tv_chapter)
     private val tvTime: TextView = itemView.findViewById(R.id.tv_time)
+    private val ivCover: ImageView = itemView.findViewById(R.id.iv_cover)
     private var article: Article? = null
 
     init {
@@ -59,6 +64,8 @@ class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         data?.run {
             llTag.removeAllViews()
             tvTitle.text = HtmlCompat.fromHtml(title, FROM_HTML_MODE_COMPACT)
+            tvSubTitle.visibility = if (desc.isNullOrBlank()) View.GONE else View.VISIBLE
+            tvSubTitle.text = desc?.let { HtmlCompat.fromHtml(it, FROM_HTML_MODE_COMPACT) }
             if (fresh)
                 addTagView(itemView.context.getString(R.string.fresh), R.color.red_700)
 
@@ -78,8 +85,13 @@ class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
             llTag.addView(tvAuthor)
 
-            tvSubtitle.text = "$superChapterName·$chapterName"
+            tvChapter.text =
+                HtmlCompat.fromHtml("$superChapterName·$chapterName", FROM_HTML_MODE_COMPACT)
             tvTime.text = niceDate
+            ivCover.visibility = if (envelopePic.isNullOrBlank()) View.GONE else View.VISIBLE
+            getCoverUrl(envelopePic)?.let {
+                Glide.with(itemView.context).load(it).into(ivCover)
+            }
         }
     }
 
@@ -104,6 +116,20 @@ class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             LinearLayout.LayoutParams.WRAP_CONTENT
         ).also { it.marginEnd = 6.dp }
         llTag.addView(tagView, params)
+    }
+
+    private fun getCoverUrl(url: String?): String? {
+        return url?.let {
+            if (it.isEmpty()) {
+                null
+            } else if (!it.startsWith("http")) { //非法url，手动加个host
+                ApiService.BASE_URL.plus(it)
+            } else if (!it.startsWith("https")) { //将http协议转换为https
+                it.replace("http", "https")
+            } else {
+                it
+            }
+        }
     }
 
     companion object {
