@@ -2,6 +2,7 @@ package com.ekkoe.fitty.extension
 
 import android.content.res.Resources
 import android.util.TypedValue
+import java.util.regex.Pattern
 
 val Number.dp
     get() = TypedValue.applyDimension(
@@ -9,3 +10,9 @@ val Number.dp
         this.toFloat(),
         Resources.getSystem().displayMetrics
     ).toInt()
+
+fun String?.removeBlank(): String? {
+    return this?.let {
+        Pattern.compile("\\s*|\t|\n|\r").matcher(it).replaceAll("")
+    }
+}

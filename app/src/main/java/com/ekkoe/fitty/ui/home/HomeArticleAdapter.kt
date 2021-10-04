@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
-import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +19,7 @@ import com.ekkoe.fitty.R
 import com.ekkoe.fitty.api.ApiService
 import com.ekkoe.fitty.data.Article
 import com.ekkoe.fitty.extension.dp
+import com.ekkoe.fitty.extension.removeBlank
 
 class HomeArticleAdapter : PagingDataAdapter<Article, ArticleViewHolder>(COMPARATOR) {
 
@@ -63,9 +64,9 @@ class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         article = data
         data?.run {
             llTag.removeAllViews()
-            tvTitle.text = HtmlCompat.fromHtml(title, FROM_HTML_MODE_COMPACT)
+            tvTitle.text = HtmlCompat.fromHtml(title, FROM_HTML_MODE_LEGACY)
             tvSubTitle.visibility = if (desc.isNullOrBlank()) View.GONE else View.VISIBLE
-            tvSubTitle.text = desc?.let { HtmlCompat.fromHtml(it, FROM_HTML_MODE_COMPACT) }
+            tvSubTitle.text = desc?.let { HtmlCompat.fromHtml(it, FROM_HTML_MODE_LEGACY) }.toString().removeBlank()
             if (fresh)
                 addTagView(itemView.context.getString(R.string.fresh), R.color.red_700)
 
@@ -86,7 +87,7 @@ class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             llTag.addView(tvAuthor)
 
             tvChapter.text =
-                HtmlCompat.fromHtml("$superChapterName·$chapterName", FROM_HTML_MODE_COMPACT)
+                HtmlCompat.fromHtml("$superChapterName·$chapterName", FROM_HTML_MODE_LEGACY)
             tvTime.text = niceDate
             ivCover.visibility = if (envelopePic.isNullOrBlank()) View.GONE else View.VISIBLE
             getCoverUrl(envelopePic)?.let {
